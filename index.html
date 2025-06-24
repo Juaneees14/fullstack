@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FullStack Pro - Domina el Desarrollo Web</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #64ffda;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #64ffda;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%2364ffda" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            opacity: 0;
+            animation: slideInLeft 1s ease 0.5s forwards;
+        }
+
+        .hero-text .highlight {
+            background: linear-gradient(45deg, #64ffda, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: #cbd5e1;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: slideInLeft 1s ease 0.7s forwards;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #64ffda, #3b82f6);
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(100, 255, 218, 0.3);
+            opacity: 0;
+            animation: slideInLeft 1s ease 0.9s forwards;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(100, 255, 218, 0.4);
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            animation: slideInRight 1s ease 0.5s forwards;
+        }
+
+        .code-window {
+            background: #1e293b;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid #334155;
+            min-width: 400px;
+        }
+
+        .window-header {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot.red { background: #ef4444; }
+        .dot.yellow { background: #f59e0b; }
+        .dot.green { background: #10b981; }
+
+        .code-content {
+            font-family: 'Courier New', monospace;
+            color: #64ffda;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .code-line {
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            animation: typewriter 0.5s ease forwards;
+        }
+
+        .code-line:nth-child(1) { animation-delay: 1.5s; }
+        .code-line:nth-child(2) { animation-delay: 2s; }
+        .code-line:nth-child(3) { animation-delay: 2.5s; }
+        .code-line:nth-child(4) { animation-delay: 3s; }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+            background: #f8fafc;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 3rem;
+            color: #1e293b;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #64ffda, #3b82f6);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+
+        .feature-card p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* Curriculum Section */
+        .curriculum {
+            padding: 5rem 0;
+            background: #1e293b;
+            color: white;
+        }
+
+        .curriculum-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .module {
+            background: #334155;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #64ffda;
+            transition: all 0.3s ease;
+        }
+
+        .module:hover {
+            background: #475569;
+            transform: translateX(10px);
+        }
+
+        .module h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #64ffda;
+        }
+
+        .module p {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .pricing-card {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border: 2px solid #64ffda;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-detail {
+            color: #64748b;
+            margin-bottom: 2rem;
+        }
+
+        .benefits {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .benefits li {
+            padding: 0.5rem 0;
+            color: #475569;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .benefits li:before {
+            content: '✓';
+            color: #10b981;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: #0f172a;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Animations */
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes typewriter {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .code-window {
+                min-width: 300px;
+            }
+        }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="#" class="logo">FullStack Pro</a>
+            <ul class="nav-links">
+                <li><a href="#features">Características</a></li>
+                <li><a href="#curriculum">Temario</a></li>
+                <li><a href="#pricing">Precio</a></li>
+                <li><a href="#contact">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Conviértete en <span class="highlight">Desarrollador FullStack</span> desde Cero</h1>
+                <p>Aprende Frontend y Backend con las tecnologías más demandadas del mercado. Un curso completo y práctico para principiantes.</p>
+                <a href="#pricing" class="cta-button">Comenzar Ahora</a>
+            </div>
+            <div class="hero-visual">
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="dot red"></div>
+                        <div class="dot yellow"></div>
+                        <div class="dot green"></div>
+                    </div>
+                    <div class="code-content">
+                        <div class="code-line">const developer = {</div>
+                        <div class="code-line">  frontend: ['React', 'HTML', 'CSS'],</div>
+                        <div class="code-line">  backend: ['Node.js', 'Express'],</div>
+                        <div class="code-line">  database: 'MongoDB'</div>
+                        <div class="code-line">};</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title reveal">¿Por qué elegir nuestro curso?</h2>
+            <div class="features-grid">
+                <div class="feature-card reveal">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Desde Cero</h3>
+                    <p>No necesitas experiencia previa. Te enseñamos desde los fundamentos hasta crear aplicaciones completas.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">💻</div>
+                    <h3>Proyectos Reales</h3>
+                    <p>Aprende construyendo proyectos del mundo real que podrás incluir en tu portafolio profesional.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Enfoque Práctico</h3>
+                    <p>80% práctica, 20% teoría. Aprende haciendo con ejercicios y proyectos en cada lección.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Certificado</h3>
+                    <p>Obtén un certificado de finalización que validará tus nuevas habilidades como desarrollador.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">👥</div>
+                    <h3>Comunidad</h3>
+                    <p>Únete a nuestra comunidad de estudiantes y recibe apoyo durante todo tu aprendizaje.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Acceso de por Vida</h3>
+                    <p>Una vez inscrito, tendrás acceso ilimitado al curso y todas las actualizaciones futuras.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Curriculum Section -->
+    <section class="curriculum" id="curriculum">
+        <div class="container">
+            <h2 class="section-title reveal">Temario del Curso</h2>
+            <div class="curriculum-grid">
+                <div class="module reveal">
+                    <h4>Módulo 1: Fundamentos Web</h4>
+                    <p>HTML5, CSS3, JavaScript ES6+, Git y GitHub</p>
+                </div>
+                <div class="module reveal">
+                    <h4>Módulo 2: Frontend Moderno</h4>
+                    <p>React, Hooks, Context API, React Router</p>
+                </div>
+                <div class="module reveal">
+                    <h4>Módulo 3: Styling Avanzado</h4>
+                    <p>CSS Grid, Flexbox, Responsive Design, Sass</p>
+                </div>
+                <div class="module reveal">
+                    <h4>Módulo 4: Backend con Node.js</h4>
+                    <p>Node.js, Express, APIs REST, Middleware</p>
+                </div>
+                <div class="module reveal">
+                    <h4>Módulo 5: Bases de Datos</h4>
+                    <p>MongoDB, Mongoose, CRUD Operations</p>
+                </div>
+                <div class="module reveal">
+                    <h4>Módulo 6: Autenticación</h4>
+                    <p>JWT, bcrypt, Login, Register, Sessions</p>
+                </div>
+                <div class="module reveal">
+                    <h4>Módulo 7: Despliegue</h4>
+                    <p>Heroku, Netlify, Variables de entorno</p>
+                </div>
+                <div class="module reveal">
+                    <h4>Módulo 8: Proyecto Final</h4>
+                    <p>Aplicación completa de e-commerce</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2 class="section-title reveal">Invierte en tu Futuro</h2>
+            <div class="pricing-card reveal">
+                <div class="price">$197</div>
+                <div class="price-detail">Pago único - Acceso de por vida</div>
+                <ul class="benefits">
+                    <li>8 módulos completos</li>
+                    <li>40+ horas de contenido</li>
+                    <li>Proyectos prácticos</li>
+                    <li>Código fuente incluido</li>
+                    <li>Certificado de finalización</li>
+                    <li>Acceso a la comunidad</li>
+                    <li>Soporte por email</li>
+                    <li>Actualizaciones gratuitas</li>
+                </ul>
+                <a href="#" class="cta-button" onclick="enrollNow()">Inscribirme Ahora</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 FullStack Pro. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll reveal animation
+        function reveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', reveal);
+        reveal(); // Check on load
+
+        // Header background on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(15, 23, 42, 0.98)';
+            } else {
+                header.style.background = 'rgba(15, 23, 42, 0.95)';
+            }
+        });
+
+        // CTA Button interaction
+        function enrollNow() {
+            // Animation effect
+            const button = event.target;
+            button.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+                
+                // Show enrollment message
+                const message = document.createElement('div');
+                message.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: linear-gradient(45deg, #64ffda, #3b82f6);
+                    color: white;
+                    padding: 2rem;
+                    border-radius: 15px;
+                    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+                    z-index: 10000;
+                    text-align: center;
+                    font-size: 1.2rem;
+                    font-weight: bold;
+                `;
+                message.innerHTML = `
+                    <h3>¡Excelente elección! 🚀</h3>
+                    <p style="margin-top: 1rem; font-weight: normal;">Serás redirigido al proceso de inscripción...</p>
+                `;
+                
+                document.body.appendChild(message);
+                
+                // Add backdrop
+                const backdrop = document.createElement('div');
+                backdrop.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.7);
+                    z-index: 9999;
+                `;
+                document.body.appendChild(backdrop);
+                
+                // Remove after 3 seconds
+                setTimeout(() => {
+                    document.body.removeChild(message);
+                    document.body.removeChild(backdrop);
+                }, 3000);
+                
+            }, 100);
+        }
+
+        // Add floating animation to hero elements
+        const heroElements = document.querySelectorAll('.feature-card, .module');
+        heroElements.forEach((element, index) => {
+            element.style.animationDelay = `${index * 0.1}s`;
+        });
+
+        // Parallax effect for hero background
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.5;
+            const hero = document.querySelector('.hero::before');
+            if (hero) {
+                document.querySelector('.hero').style.transform = `translateY(${rate}px)`;
+            }
+        });
+    </script>
+</body>
+</html>
